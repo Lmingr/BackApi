@@ -1,7 +1,7 @@
 package com.example.backapi.service;
 
 
-import com.example.backapi.pojo.User;
+import com.example.backapi.pojo.ChatUser;
 import com.example.backapi.pojo.UserForLogin;
 
 /**
@@ -9,16 +9,29 @@ import com.example.backapi.pojo.UserForLogin;
  */
 public interface IUserService {
 
-    /**
-     * 用户注册
-     * @param user 用户的对象数据
-     */
-    void  register(User user);
+    void  register(ChatUser user);
 
     /**
      * 用户登录
      * @param userForLogin
      * @return
      */
-    User  login(UserForLogin userForLogin);
+    ChatUser  login(UserForLogin userForLogin);
+
+
+    /**
+     * 修改用户信息
+     * @param user
+     */
+    void  update(ChatUser user);
+
+
+    /**
+     * 查询用户
+     * @param username
+     * @return
+     */
+    ChatUser found(String username);
+
+
 }

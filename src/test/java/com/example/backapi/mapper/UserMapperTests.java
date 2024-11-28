@@ -2,7 +2,6 @@ package com.example.backapi.mapper;
 
 
 import com.example.backapi.pojo.ChatUser;
-import com.example.backapi.pojo.User;
 import com.example.backapi.pojo.MessageBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,23 +18,6 @@ public class UserMapperTests {
 
     @Autowired
     private  UserMapper userMapper;
-
-
-    @Test
-    public  void insert(){
-        User user =new User();
-        user.setUsername("luomingrong");
-        user.setPassword("1231231");
-        Integer row=  userMapper.insert(user);
-        System.out.println("添加成功"+row);
-    }
-
-
-    @Test
-    public  void findByUsername(){
-      User user=  userMapper.findUserByName("Tom");
-        System.out.println("查询："+user);
-    }
 
 
     @Test
@@ -61,6 +43,20 @@ public class UserMapperTests {
 
     }
 
+    @Test
+    public  void testppdate(){
+        ChatUser chatUser=userMapper.findChatUserByName("luomingr");
+        chatUser.setPhone("19802022111");
+        List<MessageBean> message = new ArrayList<>();
+        message.add(new MessageBean("你好","你是哪位啊兄弟"));
+        message.add(new MessageBean("你好","你好我是人工智能AI"));
+        message.add(new MessageBean("你好","你好我是人工智能AI"));
+        message.add(new MessageBean("你好","你好我是人工智能AI"));
+        message.add(new MessageBean("你好","你好我是人工智能AI"));
+        chatUser.setMessage(message);
+        Integer integer= userMapper.updateByName(chatUser);
+        System.out.println(integer+"更新成功！！！");
+    }
 
 
 }

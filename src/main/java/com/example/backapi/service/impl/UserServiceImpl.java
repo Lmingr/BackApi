@@ -1,7 +1,7 @@
 package com.example.backapi.service.impl;
 
 import com.example.backapi.mapper.UserMapper;
-import com.example.backapi.pojo.User;
+import com.example.backapi.pojo.ChatUser;
 import com.example.backapi.pojo.UserForLogin;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.service.ex.InsertException;
@@ -14,6 +14,7 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service   //@Service 将当前类的对象交给Spring管理，自动创建对象并管理
 public class UserServiceImpl implements IUserService {
@@ -27,11 +28,11 @@ public class UserServiceImpl implements IUserService {
      * @param user 用户的对象数据
      */
     @Override
-    public void register(User user) {
+    public void register(ChatUser user) {
 
         String username=user.getUsername();
         //判断用户否存在
-        User result=  userMapper.findUserByName(username);
+        ChatUser result=  userMapper.findChatUserByName(username);
         //如果存在，抛出异常
         if(result!=null){
             //如果存在，抛出异常
@@ -63,7 +64,7 @@ public class UserServiceImpl implements IUserService {
         user.setModifiedTime(date);
 
         //如果不存在，执行插入数据库操作来实现业务注册功能
-        Integer rows=  userMapper.insert(user);
+        Integer rows=  userMapper.chatInsert(user);
         //如果插入失败，报未知插入异常
         if (rows!=1){
             throw new InsertException("在用户注册过程中产生未知异常！");
@@ -76,9 +77,9 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public User login(UserForLogin userForLogin) {
+    public ChatUser login(UserForLogin userForLogin) {
         //判断用户否存在，不存在抛异常
-        User result=userMapper.findUserByName(userForLogin.getUsername());
+        ChatUser result=userMapper.findChatUserByName(userForLogin.getUsername());
 
         if (result==null){
             throw new UserNotFoundException("用户不存在！");
@@ -101,7 +102,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         //查询部分有用数据出来
-        User user=new User();
+        ChatUser user=new ChatUser();
         user.setUid(result.getUid());
         user.setUsername(result.getUsername());
         user.setAvater(result.getAvater());
@@ -109,6 +110,36 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    @Override
+    public void update(ChatUser user) {
+
+        //如果存在，抛出异常
+        if(user==null){
+            //如果存在，抛出异常
+            throw new UsernameDuplicatedException("不存在该用户嗷");
+        }
+
+        user.setModifiedUser(user.getUsername());
+        Date date=new Date();
+        user.setModifiedTime(date);
+
+        Integer row= userMapper.updateByName(user);
+
+        if (row!=1){
+            throw new InsertException("在修改数据的时候出现异常");
+        }
+    }
+
+    @Override
+    public ChatUser found(String username) {
+        //判断用户否存在，不存在抛异常
+        ChatUser result=userMapper.findChatUserByName(username);
+
+        if (result==null){
+            throw new UserNotFoundException("用户不存在！");
+        }
+        return result;
+    }
 
     /**
      * 使用md5加密算法对密码进行加密处理

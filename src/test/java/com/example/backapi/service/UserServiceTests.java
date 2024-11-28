@@ -1,8 +1,8 @@
 package com.example.backapi.service;
 
 
-import com.example.backapi.mapper.UserMapper;
-import com.example.backapi.pojo.User;
+import com.example.backapi.pojo.ChatUser;
+import com.example.backapi.pojo.MessageBean;
 import com.example.backapi.pojo.UserForLogin;
 import com.example.backapi.service.ex.ServiceException;
 import org.junit.Test;
@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -29,9 +32,13 @@ public class UserServiceTests {
     @Test
     public  void register(){
         try {
-            User user =new User();
-            user.setUsername("luomingr2");
+            ChatUser user =new ChatUser();
+            user.setUsername("luomingr");
             user.setPassword("1231231");
+            List<MessageBean> message = new ArrayList<>();
+            message.add(new MessageBean("你好","你好啊"));
+            message.add(new MessageBean("你好","你好我是人工智能AI"));
+            user.setMessage(message);
             iUserService.register(user);
             System.out.println("注册成功");
         }catch (ServiceException e){
@@ -45,10 +52,21 @@ public class UserServiceTests {
 
     @Test
     public  void login(){
-       User user= iUserService.login(new UserForLogin("luomingr2","1231231"));
+        ChatUser user= iUserService.login(new UserForLogin("luomingr","1231231"));
         System.out.println("登录成功"+user);
     }
 
+    @Test
+    public  void update(){
+        ChatUser user =iUserService.found("luomingr");
+
+        List<MessageBean> message = new ArrayList<>();
+        message.add(new MessageBean("你好","你是天才"));
+        user.setMessage(message);
+
+        iUserService.update(user);
+        System.out.println("修改成功");
+    }
 
 
 

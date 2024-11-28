@@ -9,14 +9,14 @@
      id值是负责映射分配是唯一的，type是实体类，column是数据库字段，property是实体类的属性
      配合完成数据库和实体类名称不一致的映射
 -->
-    <resultMap id="UserResultMap" type="com.example.backapi.pojo.User" >
-        <id column="uid" property="uid"/>
-        <result column="is_delete" property="isDelete"/>
-        <result column="created_user" property="createdUser" />
-        <result column="created_time" property="createdTime" />
-        <result column="modified_user" property="modifiedUser"/>
-        <result column="modified_time" property="modifiedTime" />
-    </resultMap>
+<!--    <resultMap id="UserResultMap" type="com.example.backapi.pojo.User" >-->
+<!--        <id column="uid" property="uid"/>-->
+<!--        <result column="is_delete" property="isDelete"/>-->
+<!--        <result column="created_user" property="createdUser" />-->
+<!--        <result column="created_time" property="createdTime" />-->
+<!--        <result column="modified_user" property="modifiedUser"/>-->
+<!--        <result column="modified_time" property="modifiedTime" />-->
+<!--    </resultMap>-->
 
 
 
@@ -34,15 +34,15 @@
 
 <!--    id属性 表示映射的接口中方法的名称，直接在标签的内容编写sql语句-->
 <!--    useGeneratedKeys="true" 表示插入后返回自增的主键值，keyProperty="uid" 表示将主键值赋值给uid属性-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="uid">
-        INSERT INTO tb_user (
-        username, password, salt, phone, email, gender, avater,
-        is_delete, created_user, created_time, modified_user, modified_time
-        ) VALUES (
-         #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},
-        #{isDelete}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}
-      )
-    </insert>
+<!--    <insert id="insert" useGeneratedKeys="true" keyProperty="uid">-->
+<!--        INSERT INTO tb_user (-->
+<!--        username, password, salt, phone, email, gender, avater,-->
+<!--        is_delete, created_user, created_time, modified_user, modified_time-->
+<!--        ) VALUES (-->
+<!--         #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},-->
+<!--        #{isDelete}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}-->
+<!--      )-->
+<!--    </insert>-->
 
 <!--  查询结果是一个对象，对个对象的属性进行赋值，通过resultMap标签进行映射 -->
 
@@ -53,12 +53,11 @@
    resultMap标签中的id属性必须和select标签中的id属性一致，才能进行映射
    通过column属性指定数据库的字段，通过property属性指定User对象的属性
 -->
-    <select id="findUserByName" resultMap="UserResultMap">
-        SELECT * FROM tb_user WHERE username = #{username}
-    </select>
+<!--    <select id="findUserByName" resultMap="UserResultMap">-->
+<!--        SELECT * FROM tb_user WHERE username = #{username}-->
+<!--    </select>-->
 
-
-    <insert id="chatInsert" useGeneratedKeys="true" keyProperty="uid">
+    <insert id="chatInsert" useGeneratedKeys="true" keyProperty="uid" >
         INSERT INTO chat_user (
         username, password, salt, phone, email, gender, avater,
         is_delete, message,created_user, created_time, modified_user, modified_time
@@ -68,6 +67,13 @@
         )
     </insert>
 
+    <update id="updateByName">
+        update chat_user set password=#{password},phone=#{phone}, email=#{email},gender=#{gender},avater=#{avater},
+        modified_user=#{modifiedUser}, modified_time=#{modifiedTime},
+        message=#{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
+        where
+        username=#{username}
+    </update>
 
     <select id="findChatUserByName" resultMap="ChatUserResultMap">
         SELECT * FROM chat_user WHERE username = #{username}

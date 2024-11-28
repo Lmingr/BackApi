@@ -1,12 +1,11 @@
 package com.example.backapi.controller;
 
 
-import com.example.backapi.pojo.User;
+import com.example.backapi.pojo.ChatUser;
 import com.example.backapi.pojo.UserForLogin;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,7 @@ public class UserController extends BaseController{
      */
     @PostMapping ("register")
 //    @RequestBody  表示此方法的响应结果以json的数据响应到前端
-    public JsonResult<Void> register(@RequestBody User user){
+    public JsonResult<Void> register(@RequestBody ChatUser user){
         iUserService.register(user);
         return  new JsonResult<>(SUCCESS);
     }
@@ -46,11 +45,28 @@ public class UserController extends BaseController{
      */
 
     @PostMapping("login")
-    public JsonResult<User> login(@RequestBody UserForLogin userForLogin){
-        User user= iUserService.login(userForLogin);
+    public JsonResult<ChatUser> login(@RequestBody UserForLogin userForLogin){
+        ChatUser user= iUserService.login(userForLogin);
         return new JsonResult<>(SUCCESS,user);
     }
 
+    /**
+     * 更新数据表格
+     * @param user
+     * @return
+     */
+    @PostMapping("update")
+    public  JsonResult<Void> update(@RequestBody ChatUser user){
+        iUserService.update(user);
+        return new JsonResult<>(SUCCESS);
+    }
+
+
+    @PostMapping("found")
+    public JsonResult<ChatUser> found(@RequestBody String username){
+        ChatUser user= iUserService.found(username);
+        return new JsonResult<>(SUCCESS,user);
+    }
 
 
 }

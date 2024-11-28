@@ -14,7 +14,6 @@
 	<name>BackApi</name>
 	<description>BackApi</description>
 
-
 	<properties>
 		<java.version>17</java.version>
 	</properties>

@@ -6,10 +6,7 @@ import com.example.backapi.pojo.UserForLogin;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -62,8 +59,8 @@ public class UserController extends BaseController{
     }
 
 
-    @PostMapping("found")
-    public JsonResult<ChatUser> found(@RequestBody String username){
+    @RequestMapping ("found")
+    public JsonResult<ChatUser> found(String username){
         ChatUser user= iUserService.found(username);
         return new JsonResult<>(SUCCESS,user);
     }

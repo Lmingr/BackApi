@@ -102,12 +102,15 @@ public class UserServiceImpl implements IUserService {
         }
 
         //查询部分有用数据出来
-        ChatUser user=new ChatUser();
-        user.setUid(result.getUid());
-        user.setUsername(result.getUsername());
-        user.setAvater(result.getAvater());
+//        ChatUser user=new ChatUser();
+//        user.setUid(result.getUid());
+//        user.setUsername(result.getUsername());
+//        user.setAvater(result.getAvater());
+//        user.setMessage(result.getMessage());
+//        user.setPhone(result.getPhone());
+//        user.setGender(result.getGender());
 
-        return user;
+        return result;
     }
 
     @Override

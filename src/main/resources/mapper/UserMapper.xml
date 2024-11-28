@@ -67,7 +67,7 @@
         )
     </insert>
 
-    <update id="updateByName">
+    <update id="updateByName" parameterType="com.example.backapi.pojo.ChatUser">
         update chat_user set password=#{password},phone=#{phone}, email=#{email},gender=#{gender},avater=#{avater},
         modified_user=#{modifiedUser}, modified_time=#{modifiedTime},
         message=#{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}

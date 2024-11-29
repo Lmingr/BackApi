@@ -1,8 +1,9 @@
 package com.example.backapi.pojo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class UserForLogin {
+public class UserForLogin implements Serializable {
 
     private String username;
     private String password;

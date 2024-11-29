@@ -3,6 +3,7 @@ package com.example.backapi.mapper;
 
 import com.example.backapi.pojo.ChatUser;
 import com.example.backapi.pojo.MessageBean;
+import com.example.backapi.pojo.UserMessage;
 
 import java.util.List;
 
@@ -23,9 +24,14 @@ public interface UserMapper {
     ChatUser findChatUserByName(String username);
 
     /**
-     * 更新message和其他个人信息
+     * 更新其他个人信息
      * @return 修改成功的行数
      */
     Integer updateByName(ChatUser chatUser);
 
+
+    /**
+     * 更新Message 信息
+     */
+    Integer updateMessage(UserMessage userMessage);
 }

@@ -2,11 +2,14 @@ package com.example.backapi.controller;
 
 
 import com.example.backapi.pojo.ChatUser;
+import com.example.backapi.pojo.MessageBean;
 import com.example.backapi.pojo.UserForLogin;
+import com.example.backapi.pojo.UserMessage;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 
 @RestController
@@ -28,7 +31,6 @@ public class UserController extends BaseController{
      * @return
      */
     @PostMapping ("register")
-//    @RequestBody  表示此方法的响应结果以json的数据响应到前端
     public JsonResult<Void> register(@RequestBody ChatUser user){
         iUserService.register(user);
         return  new JsonResult<>(SUCCESS);
@@ -59,7 +61,14 @@ public class UserController extends BaseController{
     }
 
 
-    @RequestMapping ("found")
+    @PostMapping("message")
+    public  JsonResult<Void> updateMessage(@RequestBody UserMessage userMessage){
+        iUserService.updateMessage(userMessage);
+        return new JsonResult<>(SUCCESS);
+    }
+
+
+    @GetMapping("found")
     public JsonResult<ChatUser> found(String username){
         ChatUser user= iUserService.found(username);
         return new JsonResult<>(SUCCESS,user);

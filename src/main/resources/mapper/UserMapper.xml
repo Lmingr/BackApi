@@ -68,10 +68,9 @@
     </insert>
 
     <update id="updateByName" parameterType="com.example.backapi.pojo.ChatUser">
-        update chat_user set password=#{password},phone=#{phone}, email=#{email},gender=#{gender},avater=#{avater},
-        modified_user=#{modifiedUser}, modified_time=#{modifiedTime},
-        message=#{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
-        where
+        UPDATE chat_user SET phone=#{phone}, email=#{email},gender=#{gender},avater=#{avater},
+        modified_user=#{modifiedUser}, modified_time=#{modifiedTime}
+        WHERE
         username=#{username}
     </update>
 
@@ -79,6 +78,12 @@
         SELECT * FROM chat_user WHERE username = #{username}
     </select>
 
+    <update id="updateMessage"  parameterType="com.example.backapi.pojo.UserMessage">
+        UPDATE chat_user SET
+        message=#{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
+        WHERE
+        username=#{username}
+    </update>
 
 
 </mapper>

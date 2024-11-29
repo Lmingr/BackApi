@@ -38,13 +38,13 @@ public class UserMapperTests {
 
     @Test
     public  void testfindChatUse(){
-        ChatUser user = userMapper.findChatUserByName("luomingrong");
+        ChatUser user = userMapper.findChatUserByName("luomingr");
         System.out.println(user);
 
     }
 
     @Test
-    public  void testppdate(){
+    public  void testUpdate(){
         ChatUser chatUser=userMapper.findChatUserByName("luomingr");
         chatUser.setPhone("19802022111");
         List<MessageBean> message = new ArrayList<>();

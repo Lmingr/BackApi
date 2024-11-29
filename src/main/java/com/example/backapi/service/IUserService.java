@@ -2,7 +2,11 @@ package com.example.backapi.service;
 
 
 import com.example.backapi.pojo.ChatUser;
+import com.example.backapi.pojo.MessageBean;
 import com.example.backapi.pojo.UserForLogin;
+import com.example.backapi.pojo.UserMessage;
+
+import java.util.List;
 
 /**
  *  用户模块业务层接口
@@ -34,4 +38,7 @@ public interface IUserService {
     ChatUser found(String username);
 
 
+
+
+    void updateMessage(UserMessage userMessage);
 }

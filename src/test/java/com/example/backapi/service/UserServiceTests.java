@@ -4,6 +4,7 @@ package com.example.backapi.service;
 import com.example.backapi.pojo.ChatUser;
 import com.example.backapi.pojo.MessageBean;
 import com.example.backapi.pojo.UserForLogin;
+import com.example.backapi.pojo.UserMessage;
 import com.example.backapi.service.ex.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,17 +59,10 @@ public class UserServiceTests {
 
     @Test
     public  void update(){
-        ChatUser user =iUserService.found("luomingr");
-
         List<MessageBean> message = new ArrayList<>();
         message.add(new MessageBean("你好","你是天才"));
-        user.setMessage(message);
-
-        iUserService.update(user);
+        message.add(new MessageBean("你好","你是垃圾"));
+        iUserService.updateMessage(new UserMessage("luomingr",message));
         System.out.println("修改成功");
     }
-
-
-
-
 }

@@ -2,7 +2,9 @@ package com.example.backapi.service.impl;
 
 import com.example.backapi.mapper.UserMapper;
 import com.example.backapi.pojo.ChatUser;
+import com.example.backapi.pojo.MessageBean;
 import com.example.backapi.pojo.UserForLogin;
+import com.example.backapi.pojo.UserMessage;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.service.ex.InsertException;
 import com.example.backapi.service.ex.PasswordNotMatchException;
@@ -14,7 +16,7 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.UUID;
-import java.util.logging.Logger;
+
 
 @Service   //@Service 将当前类的对象交给Spring管理，自动创建对象并管理
 public class UserServiceImpl implements IUserService {
@@ -144,6 +146,21 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
+    @Override
+    public void updateMessage(UserMessage userMessage) {
+
+        if (userMessage.getUsername()==null){
+            //如果存在，抛出异常
+            throw new UsernameDuplicatedException("不存在该用户嗷");
+        }
+
+        Integer row=  userMapper.updateMessage(userMessage);
+        if (row!=1){
+            throw new InsertException("在修改数据的时候出现异常");
+        }
+
+    }
+
     /**
      * 使用md5加密算法对密码进行加密处理
      * 使用spring的工具类DigestUtils来实现md5加密算法
@@ -159,9 +176,5 @@ public class UserServiceImpl implements IUserService {
         //返回加密后的密码
         return password;
     }
-
-
-
-
 
 }

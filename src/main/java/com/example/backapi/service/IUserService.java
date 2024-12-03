@@ -1,10 +1,7 @@
 package com.example.backapi.service;
 
 
-import com.example.backapi.pojo.ChatUser;
-import com.example.backapi.pojo.MessageBean;
-import com.example.backapi.pojo.UserForLogin;
-import com.example.backapi.pojo.UserMessage;
+import com.example.backapi.pojo.*;
 
 import java.util.List;
 
@@ -22,7 +19,6 @@ public interface IUserService {
      */
     ChatUser  login(UserForLogin userForLogin);
 
-
     /**
      * 修改用户信息
      * @param user
@@ -39,6 +35,31 @@ public interface IUserService {
 
 
 
+    /**
+     * 查询mid的单个信息条目
+     * @param mid
+     * @return
+     */
+    ChatMessage foundMessage(Integer mid);
 
+
+
+    /**
+     * 查询username的全部信息条目
+     * @param username
+     * @return
+     */
+   List<ChatMessage> foundMessageList(String username);
+
+
+    /**
+     * 插入信息条目
+     */
+    void  insertMessage(ChatMessage chatMessage);
+
+    /**
+     * 更新信息
+     * @param userMessage
+     */
     void updateMessage(UserMessage userMessage);
 }

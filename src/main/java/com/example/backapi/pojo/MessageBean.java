@@ -5,18 +5,20 @@ import java.io.Serializable;
 
 public class MessageBean implements Serializable {
 
-
-    private  String topic;
+    private  String role;
     private  String content;
-    private  Data  messageTime;
 
-
-    public String getTopic() {
-        return topic;
+    public MessageBean(String role, String content) {
+        this.role = role;
+        this.content = content;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getContent() {
@@ -27,25 +29,11 @@ public class MessageBean implements Serializable {
         this.content = content;
     }
 
-    public Data getMessageTime() {
-        return messageTime;
-    }
-
-    public void setMessageTime(Data messageTime) {
-        this.messageTime = messageTime;
-    }
-
-    public MessageBean(String topic, String content) {
-        this.topic = topic;
-        this.content = content;
-    }
-
     @Override
     public String toString() {
-        return "messageBean{" +
-                "topic='" + topic + '\'' +
+        return "MessageBean{" +
+                "role='" + role + '\'' +
                 ", content='" + content + '\'' +
-                ", messageTime=" + messageTime +
                 '}';
     }
 }

@@ -6,40 +6,31 @@ import java.util.Objects;
 
 public class UserMessage implements Serializable {
 
-    private String username;
-    private List<MessageBean> message;
+    private Integer mid;
+    private List<MessageBean> messageList;
 
 
-    public UserMessage(String username, List<MessageBean> message) {
-        this.username = username;
-        this.message = message;
+    public Integer getMid() {
+        return mid;
     }
 
-    public String getUsername() {
-        return username;
+    public void setMid(Integer mid) {
+        this.mid = mid;
     }
 
-    public List<MessageBean> getMessage() {
-        return message;
+    public List<MessageBean> getMessageList() {
+        return messageList;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof UserMessage that)) return false;
-        return Objects.equals(getUsername(), that.getUsername()) && Objects.equals(getMessage(), that.getMessage());
+    public void setMessageList(List<MessageBean> messageList) {
+        this.messageList = messageList;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUsername(), getMessage());
-    }
-
 
     @Override
     public String toString() {
         return "UserMessage{" +
-                "username='" + username + '\'' +
-                ", message=" + message +
+                "mid=" + mid +
+                ", messageList=" + messageList +
                 '}';
     }
 }

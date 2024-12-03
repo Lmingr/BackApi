@@ -1,15 +1,13 @@
 package com.example.backapi.controller;
 
 
-import com.example.backapi.pojo.ChatUser;
-import com.example.backapi.pojo.MessageBean;
-import com.example.backapi.pojo.UserForLogin;
-import com.example.backapi.pojo.UserMessage;
+import com.example.backapi.pojo.*;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -72,6 +70,12 @@ public class UserController extends BaseController{
     public JsonResult<ChatUser> found(String username){
         ChatUser user= iUserService.found(username);
         return new JsonResult<>(SUCCESS,user);
+    }
+
+    @GetMapping("foundlist")
+    public  JsonResult<List<ChatMessage>>  foundMessageList(String username){
+        List<ChatMessage> chatMessageList= iUserService.foundMessageList(username);
+        return new JsonResult<>(SUCCESS,chatMessageList);
     }
 
 

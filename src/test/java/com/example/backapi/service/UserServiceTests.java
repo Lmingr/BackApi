@@ -1,10 +1,7 @@
 package com.example.backapi.service;
 
 
-import com.example.backapi.pojo.ChatUser;
-import com.example.backapi.pojo.MessageBean;
-import com.example.backapi.pojo.UserForLogin;
-import com.example.backapi.pojo.UserMessage;
+import com.example.backapi.pojo.*;
 import com.example.backapi.service.ex.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -36,10 +34,6 @@ public class UserServiceTests {
             ChatUser user =new ChatUser();
             user.setUsername("luomingr");
             user.setPassword("1231231");
-            List<MessageBean> message = new ArrayList<>();
-            message.add(new MessageBean("你好","你好啊"));
-            message.add(new MessageBean("你好","你好我是人工智能AI"));
-            user.setMessage(message);
             iUserService.register(user);
             System.out.println("注册成功");
         }catch (ServiceException e){
@@ -57,12 +51,50 @@ public class UserServiceTests {
         System.out.println("登录成功"+user);
     }
 
+
     @Test
-    public  void update(){
+    public  void testMessageInsert(){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setUsername("luomingr");
+        chatMessage.setMessageTopic("你好吗你叫什么");
+        chatMessage.setMessageContent("我叫AI");
         List<MessageBean> message = new ArrayList<>();
-        message.add(new MessageBean("你好","你是天才"));
-        message.add(new MessageBean("你好","你是垃圾"));
-        iUserService.updateMessage(new UserMessage("luomingr",message));
-        System.out.println("修改成功");
+        message.add(new MessageBean("我","你是哪位啊兄弟"));
+        message.add(new MessageBean("AI","你好我是人工智能AI"));
+        chatMessage.setMessageList(message);
+        iUserService.insertMessage(chatMessage);
+        System.out.println("插入成功！！！");
     }
+
+
+    @Test
+    public void foundList(){
+     List<ChatMessage> chatMessageList=   iUserService.foundMessageList("luomingr");
+
+     for (ChatMessage chatMessage:chatMessageList){
+
+         System.out.println(chatMessage);
+     }
+    }
+
+     @Test
+    public  void foundMessage(){
+        ChatMessage chatMessage= iUserService.foundMessage(2);
+
+         System.out.println(chatMessage);
+     }
+
+     @Test
+     public  void updateMessage(){
+
+         UserMessage userMessage=new UserMessage();
+         userMessage.setMid(2);
+         List<MessageBean> message = new ArrayList<>();
+         message.add(new MessageBean("我","你是哪位啊兄弟"));
+         message.add(new MessageBean("AI","你好我是人工智能AI"));
+         message.add(new MessageBean("我","你好我是人工智能AI"));
+         message.add(new MessageBean("AI","你好我是人工智能AI"));
+         userMessage.setMessageList(message);
+         iUserService.updateMessage(userMessage);
+     }
 }

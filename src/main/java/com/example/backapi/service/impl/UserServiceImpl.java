@@ -1,10 +1,7 @@
 package com.example.backapi.service.impl;
 
 import com.example.backapi.mapper.UserMapper;
-import com.example.backapi.pojo.ChatUser;
-import com.example.backapi.pojo.MessageBean;
-import com.example.backapi.pojo.UserForLogin;
-import com.example.backapi.pojo.UserMessage;
+import com.example.backapi.pojo.*;
 import com.example.backapi.service.IUserService;
 import com.example.backapi.service.ex.InsertException;
 import com.example.backapi.service.ex.PasswordNotMatchException;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -147,14 +145,62 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updateMessage(UserMessage userMessage) {
-
-        if (userMessage.getUsername()==null){
-            //如果存在，抛出异常
-            throw new UsernameDuplicatedException("不存在该用户嗷");
+    public ChatMessage foundMessage(Integer mid) {
+       ChatMessage result= userMapper.findChatMessageByMid(mid);
+        if (result==null){
+            throw new UserNotFoundException("不存在！");
         }
 
-        Integer row=  userMapper.updateMessage(userMessage);
+        return result;
+
+    }
+
+    @Override
+    public  List<ChatMessage> foundMessageList(String username) {
+
+        List<ChatMessage> result=userMapper.findChatMessageListByUsername(username);
+
+        if (result.isEmpty()){
+            throw new UserNotFoundException("不存在！");
+        }
+
+        return  result;
+    }
+
+
+    /**
+     * 新增信息列
+     * @param chatMessage
+     */
+    @Override
+    public void insertMessage(ChatMessage chatMessage) {
+        ChatUser result=  userMapper.findChatUserByName(chatMessage.getUsername());
+        //如果存在，抛出异常
+        if(result==null){
+            //如果存在，抛出异常
+            throw new UsernameDuplicatedException(chatMessage.getUsername()+"不存在或者已销毁，插入信息失败");
+        }
+
+      Date date=new Date();
+      chatMessage.setMessageDate(date);
+      Integer row= userMapper.chatMessageInsert(chatMessage);
+        if (row!=1){
+            throw new InsertException("在插入信息的时候出现异常");
+        }
+    }
+
+
+
+    @Override
+    public void updateMessage(UserMessage userMessage) {
+
+        ChatMessage result= userMapper.findChatMessageByMid(userMessage.getMid());
+
+        if(result==null){
+            throw new UsernameDuplicatedException("该聊天话题已被删除");
+        }
+
+        Integer row=  userMapper.updateChatMessage(userMessage);
         if (row!=1){
             throw new InsertException("在修改数据的时候出现异常");
         }

@@ -9,21 +9,9 @@
      id值是负责映射分配是唯一的，type是实体类，column是数据库字段，property是实体类的属性
      配合完成数据库和实体类名称不一致的映射
 -->
-<!--    <resultMap id="UserResultMap" type="com.example.backapi.pojo.User" >-->
-<!--        <id column="uid" property="uid"/>-->
-<!--        <result column="is_delete" property="isDelete"/>-->
-<!--        <result column="created_user" property="createdUser" />-->
-<!--        <result column="created_time" property="createdTime" />-->
-<!--        <result column="modified_user" property="modifiedUser"/>-->
-<!--        <result column="modified_time" property="modifiedTime" />-->
-<!--    </resultMap>-->
-
-
-
     <resultMap id="ChatUserResultMap" type="com.example.backapi.pojo.ChatUser" >
         <id column="uid" property="uid"/>
         <result column="is_delete" property="isDelete"/>
-        <result column="message" property="message" typeHandler="com.example.backapi.handler.ListToVarcharTypeHandler" />
         <result column="created_user" property="createdUser" />
         <result column="created_time" property="createdTime" />
         <result column="modified_user" property="modifiedUser"/>
@@ -31,21 +19,30 @@
     </resultMap>
 
 
+    <resultMap id="ChatMessageResultMap" type="com.example.backapi.pojo.ChatMessage" >
+        <id column="mid" property="mid"/>
+        <result column="message_topic" property="messageTopic" />
+        <result column="message_content" property="messageContent" />
+        <result column="message_date" property="messageDate"/>
+        <result column="modified_time" property="modifiedTime" />
+        <result column="message_list" property="messageList" typeHandler="com.example.backapi.handler.ListToVarcharTypeHandler" />
+    </resultMap>
 
+
+<!--    这里是往用户表里插入-->
 <!--    id属性 表示映射的接口中方法的名称，直接在标签的内容编写sql语句-->
 <!--    useGeneratedKeys="true" 表示插入后返回自增的主键值，keyProperty="uid" 表示将主键值赋值给uid属性-->
-<!--    <insert id="insert" useGeneratedKeys="true" keyProperty="uid">-->
-<!--        INSERT INTO tb_user (-->
-<!--        username, password, salt, phone, email, gender, avater,-->
-<!--        is_delete, created_user, created_time, modified_user, modified_time-->
-<!--        ) VALUES (-->
-<!--         #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},-->
-<!--        #{isDelete}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}-->
-<!--      )-->
-<!--    </insert>-->
+    <insert id="chatInsert" useGeneratedKeys="true" keyProperty="uid">
+        INSERT INTO chat_user (
+        username, password, salt, phone, email, gender, avater,
+        is_delete, created_user, created_time, modified_user, modified_time
+        ) VALUES (
+         #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},
+        #{isDelete}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}
+      )
+    </insert>
 
 <!--  查询结果是一个对象，对个对象的属性进行赋值，通过resultMap标签进行映射 -->
-
 <!--
    resultType="com.example.backapi.entity.User" 表示返回的结果类型是User对象
    通过resultMap标签进行映射，将数据库的字段映射到User对象的属性上
@@ -57,15 +54,26 @@
 <!--        SELECT * FROM tb_user WHERE username = #{username}-->
 <!--    </select>-->
 
-    <insert id="chatInsert" useGeneratedKeys="true" keyProperty="uid" >
-        INSERT INTO chat_user (
-        username, password, salt, phone, email, gender, avater,
-        is_delete, message,created_user, created_time, modified_user, modified_time
-        ) VALUES (
-        #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},
-        #{isDelete}, #{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}
+<!--    <insert id="chatInsert" useGeneratedKeys="true" keyProperty="uid" >-->
+<!--        INSERT INTO chat_user (-->
+<!--        username, password, salt, phone, email, gender, avater,-->
+<!--        is_delete, message,created_user, created_time, modified_user, modified_time-->
+<!--        ) VALUES (-->
+<!--        #{username}, #{password}, #{salt}, #{phone}, #{email}, #{gender}, #{avater},-->
+<!--        #{isDelete}, #{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}-->
+<!--        )-->
+<!--    </insert>-->
+<!--    -->
+
+    <insert id="chatMessageInsert" keyProperty="mid" useGeneratedKeys="true">
+        INSERT INTO chat_message(
+         username, message_topic, message_content,message_date,message_list
+        )VALUES(
+         #{username},#{messageTopic},#{messageContent},#{messageDate},
+        #{messageList,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
         )
     </insert>
+
 
     <update id="updateByName" parameterType="com.example.backapi.pojo.ChatUser">
         UPDATE chat_user SET phone=#{phone}, email=#{email},gender=#{gender},avater=#{avater},
@@ -74,15 +82,27 @@
         username=#{username}
     </update>
 
+
     <select id="findChatUserByName" resultMap="ChatUserResultMap">
         SELECT * FROM chat_user WHERE username = #{username}
     </select>
 
-    <update id="updateMessage"  parameterType="com.example.backapi.pojo.UserMessage">
-        UPDATE chat_user SET
-        message=#{message,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
+
+    <select id="findChatMessageListByUsername" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_message WHERE username= #{username}
+    </select>
+
+
+    <select id="findChatMessageByMid" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_message WHERE mid= #{mid}
+    </select>
+
+
+    <update id="updateChatMessage"  parameterType="com.example.backapi.pojo.UserMessage">
+        UPDATE chat_message SET
+        message_list=#{messageList,typeHandler=com.example.backapi.handler.ListToVarcharTypeHandler}
         WHERE
-        username=#{username}
+        mid= #{mid}
     </update>
 
 

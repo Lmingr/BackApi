@@ -14,8 +14,6 @@ public class ChatUser extends BaseEntity implements Serializable {
     private String avater;
     private String gender;
     private Integer isDelete;
-    private List<MessageBean> message;
-
 
     public Integer getUid() {
         return uid;
@@ -49,14 +47,6 @@ public class ChatUser extends BaseEntity implements Serializable {
         this.salt = salt;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -71,6 +61,14 @@ public class ChatUser extends BaseEntity implements Serializable {
 
     public void setAvater(String avater) {
         this.avater = avater;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getGender() {
@@ -89,15 +87,6 @@ public class ChatUser extends BaseEntity implements Serializable {
         this.isDelete = isDelete;
     }
 
-    public List<MessageBean> getMessage() {
-        return message;
-    }
-
-    public void setMessage(List<MessageBean> message) {
-        this.message = message;
-    }
-
-
     @Override
     public String toString() {
         return "ChatUser{" +
@@ -110,7 +99,6 @@ public class ChatUser extends BaseEntity implements Serializable {
                 ", avater='" + avater + '\'' +
                 ", gender='" + gender + '\'' +
                 ", isDelete=" + isDelete +
-                ", message=" + message +
                 '}';
     }
 }

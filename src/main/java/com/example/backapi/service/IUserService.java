@@ -43,7 +43,6 @@ public interface IUserService {
     ChatMessage foundMessage(Integer mid);
 
 
-
     /**
      * 查询username的全部信息条目
      * @param username

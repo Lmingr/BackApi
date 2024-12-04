@@ -86,13 +86,12 @@ public class UserServiceTests {
 
      @Test
      public  void updateMessage(){
-
          UserMessage userMessage=new UserMessage();
-         userMessage.setMid(2);
+         userMessage.setMid(5);
          List<MessageBean> message = new ArrayList<>();
-         message.add(new MessageBean("我","你是哪位啊兄弟"));
+         message.add(new MessageBean("user","你是哪位啊兄弟"));
          message.add(new MessageBean("AI","你好我是人工智能AI"));
-         message.add(new MessageBean("我","你好我是人工智能AI"));
+         message.add(new MessageBean("user","你好我是人工智能AI"));
          message.add(new MessageBean("AI","你好我是人工智能AI"));
          userMessage.setMessageList(message);
          iUserService.updateMessage(userMessage);

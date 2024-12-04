@@ -59,25 +59,56 @@ public class UserController extends BaseController{
     }
 
 
+    /**
+     * 更新数据信息
+     * @param userMessage
+     * @return
+     */
     @PostMapping("message")
     public  JsonResult<Void> updateMessage(@RequestBody UserMessage userMessage){
         iUserService.updateMessage(userMessage);
         return new JsonResult<>(SUCCESS);
     }
 
+    /**
+     * 新增数据信息
+     * @param chatMessage
+     * @return
+     */
+    @PostMapping("insert")
+    public JsonResult<Void> insert(@RequestBody ChatMessage chatMessage){
+        iUserService.insertMessage(chatMessage);
+        return  new JsonResult<>(SUCCESS);
+    }
 
+    /**
+     * 查询用户的信息
+     * @param username
+     * @return
+     */
     @GetMapping("found")
     public JsonResult<ChatUser> found(String username){
         ChatUser user= iUserService.found(username);
         return new JsonResult<>(SUCCESS,user);
     }
 
+    /**
+     * 查询用户的聊天信息列
+     * @param username
+     * @return
+     */
     @GetMapping("foundlist")
     public  JsonResult<List<ChatMessage>>  foundMessageList(String username){
         List<ChatMessage> chatMessageList= iUserService.foundMessageList(username);
         return new JsonResult<>(SUCCESS,chatMessageList);
     }
 
+
+    @GetMapping("foundmessage")
+    public JsonResult<ChatMessage>  foundMessage(Integer mid){
+        ChatMessage chatMessage= iUserService.foundMessage(mid);
+        return new JsonResult<>(SUCCESS,chatMessage);
+    }
 
 }
 
